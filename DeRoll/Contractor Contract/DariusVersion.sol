@@ -30,7 +30,7 @@ contract ContractorJobs{
 
     function CreateJob(string memory description, string memory link, uint256 payout) public onlyOwner{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
-        require(bytes(link).length);
+        require(bytes(link).length < 200, "Link is too long.");
 
         uint256 JobId = ContractorJobsCount;
         Jobs[JobId] = Job(description, link, payout, address(0), false, false);
