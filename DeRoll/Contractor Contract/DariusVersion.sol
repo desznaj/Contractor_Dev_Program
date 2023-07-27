@@ -24,6 +24,7 @@ contract ContractorJobs{
         string Link;
         uint256 TotalPayout;
         address Contractor;
+        bool Accepted;
         bool Completed;
     }
 
