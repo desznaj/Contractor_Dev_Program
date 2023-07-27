@@ -36,7 +36,7 @@ contract ContractorJobs{
         require(bytes(link).length < 200, "Link is too long.");
 
         uint256 JobId = ContractorJobsCount;
-        Jobs[JobId] = Job(description, link, payout, address(0), false, false);
+        Jobs[JobId] = Job(description, link, payout, address(0), false, false, block.timestamp);
         ContractorJobsCount++;
 
         emit JobCreated(JobId, description, link, payout);
