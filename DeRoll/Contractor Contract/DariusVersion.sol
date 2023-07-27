@@ -48,7 +48,7 @@ contract ContractorJobs{
         require(bytes(link).length < 200, "Link is too long.");
 
         Jobs.push(Job(description, link, payout, address(0), false, false, block.timestamp));
-        AvailableJobs.push(Jobs);
+        AvailableJobs.push(Jobs.length - 1);
 
         emit JobCreated(JobId, description, link, payout);
     }
