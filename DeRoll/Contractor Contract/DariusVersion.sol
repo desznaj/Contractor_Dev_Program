@@ -3,6 +3,7 @@
 pragma solidity 0.8.19;
 
 contract ContractorJobs{
+    //
     address public Owner;
     uint256 public ContractorJobsCount;
     uint256 public OldestUnclaimedJob;
@@ -32,7 +33,9 @@ contract ContractorJobs{
         uint256 LastUpdate;
     }
 
-    // Only Own
+
+
+    // Only Owner Functions
 
     function CreateJob(string memory description, string memory link, uint256 payout) public onlyOwner{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
