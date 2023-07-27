@@ -6,6 +6,7 @@ contract ContractorJobs{
     //Variable Declarations
     address public Owner;
     uint256 public ContractorJobsCount;
+    uint256 public Latest
 
     //Other Declarations
     mapping(address => bool) public Contractors;
