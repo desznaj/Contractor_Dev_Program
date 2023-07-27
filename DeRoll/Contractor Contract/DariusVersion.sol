@@ -6,7 +6,6 @@ contract ContractorJobs{
     //Variable Declarations
     address public Owner;
     uint256 public ContractorJobsCount;
-    uint256 public OldestUnclaimedJob;
 
     //Other Declarations
     mapping(address => bool) public Contractors;
@@ -36,7 +35,7 @@ contract ContractorJobs{
 
     //Only Contractor Functions
 
-    
+
 
 
     // Only Owner Functions
