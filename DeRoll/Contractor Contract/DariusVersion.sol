@@ -46,7 +46,7 @@ contract ContractorJobs{
         for(uint256 i = 0; i < contractors.length; i++){
             Contractors[contractors[i]] = addremove;
         }
-        emit
+        emit ContractorsAddedOrRemoved(contractors, addremove);
     }
 
 
