@@ -32,6 +32,8 @@ contract ContractorJobs{
         uint256 LastUpdate;
     }
 
+    // Only Own
+
     function CreateJob(string memory description, string memory link, uint256 payout) public onlyOwner{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
         require(bytes(link).length < 200, "Link is too long.");
