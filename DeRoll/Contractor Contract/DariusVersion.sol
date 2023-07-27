@@ -28,9 +28,9 @@ contract ContractorJobs{
         bool Completed;
     }
 
-    function CreateJob(string memory description, string memory link, uint256 Payout) public onlyOwner{
+    function CreateJob(string memory description, string memory link, uint256 payout) public onlyOwner{
         uint256 JobId = ContractorJobsCount;
-        Jobs[JobId] = Job(_description, )
+        Jobs[JobId] = Job(description, )
         ContractorJobsCount++;
     }
 
