@@ -2,4 +2,6 @@
 
 pragma solidity 0.8.19;
 
-Contract 
+contract ContractorJobs{
+    address public Owner;
+}
