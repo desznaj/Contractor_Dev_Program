@@ -9,6 +9,15 @@ contract ContractorJobs{
     mapping(address => bool) public Contractors;
     mapping(uint256 => Job) public Jobs;
 
+    modifier onlyOwner(){
+        require(msg.sender == Owner, "Only the owner can call this function.");
+        _;
+    }
+    modifier onlyContractor(){
+        require(Contractors[msg.sender], "Only approved contractors can call this function.");
+        _;
+    }
+
     struct Job{
         string Description;
         string Link;
