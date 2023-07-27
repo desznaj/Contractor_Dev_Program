@@ -5,12 +5,11 @@ pragma solidity 0.8.19;
 contract ContractorJobs{
     //Variable Declarations
     address public Owner;
-    uint256 public ContractorJobsCount;
     uint256 internal LatestShuffleNumber;
 
     //Other Declarations
     mapping(address => bool) public Contractors;
-    
+
     Job[] public AvailableJobs;
     Job[] public Jobs;
     mapping(uint256 => uint256) internal FisherYatesShuffle;
@@ -48,9 +47,7 @@ contract ContractorJobs{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
         require(bytes(link).length < 200, "Link is too long.");
 
-        uint256 JobId = ContractorJobsCount;
         Jobs[JobId] = Job(description, link, payout, address(0), false, false, block.timestamp);
-        ContractorJobsCount++;
 
         emit JobCreated(JobId, description, link, payout);
     }
