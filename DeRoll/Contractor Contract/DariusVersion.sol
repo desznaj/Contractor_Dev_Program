@@ -6,5 +6,9 @@ contract ContractorJobs{
     address public Owner;
 
     mapping(address => bool) public Contractors;
-    
+    mapping(uint256 => Job) public Jobs;
+
+    struct Job{
+        
+    }
 }
