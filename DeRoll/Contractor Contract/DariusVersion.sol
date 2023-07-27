@@ -42,10 +42,11 @@ contract ContractorJobs{
         emit JobCreated(JobId, description, link, payout);
     }
 
-    function AddOrRemoveContractors(address[] memory contractors, bool add) public onlyOwner{
+    function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
         for(uint256 i = 0; i < contractors.length; i++){
-            Contractors[contractors[i]] = add;
+            Contractors[contractors[i]] = addremove;
         }
+        emit
     }
 
 
