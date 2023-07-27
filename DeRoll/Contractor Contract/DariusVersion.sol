@@ -9,6 +9,9 @@ contract ContractorJobs{
     mapping(uint256 => Job) public Jobs;
 
     struct Job{
-        
+        string Description;
+        string Link;
+        uint256 TotalPayout;
+        bool Completed;
     }
 }
