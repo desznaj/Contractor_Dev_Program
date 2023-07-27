@@ -47,7 +47,7 @@ contract ContractorJobs{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
         require(bytes(link).length < 200, "Link is too long.");
 
-        Jobs[JobId] = Job(description, link, payout, address(0), false, false, block.timestamp);
+        Jobs.push(Job(description, link, payout, address(0), false, false, block.timestamp);)
 
         emit JobCreated(JobId, description, link, payout);
     }
