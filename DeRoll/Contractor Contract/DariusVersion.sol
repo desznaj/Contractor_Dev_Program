@@ -10,7 +10,7 @@ contract ContractorJobs{
     //Other Declarations
     mapping(address => bool) public Contractors;
 
-    Job[] public AvailableJobs;
+    uint256[] public AvailableJobs;
     Job[] public Jobs;
     mapping(uint256 => uint256) internal FisherYatesShuffle;
 
@@ -48,7 +48,7 @@ contract ContractorJobs{
         require(bytes(link).length < 200, "Link is too long.");
 
         Jobs.push(Job(description, link, payout, address(0), false, false, block.timestamp));
-        AvailableJobs.push();
+        AvailableJobs.push(Jobs);
 
         emit JobCreated(JobId, description, link, payout);
     }
