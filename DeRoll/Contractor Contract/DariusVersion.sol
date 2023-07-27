@@ -38,6 +38,8 @@ contract ContractorJobs{
         uint256 JobId = ContractorJobsCount;
         Jobs[JobId] = Job(description, link, payout, address(0), false, false);
         ContractorJobsCount++;
+
+        emit JobCreated(JobId, description, link, payout);
     }
 
 
