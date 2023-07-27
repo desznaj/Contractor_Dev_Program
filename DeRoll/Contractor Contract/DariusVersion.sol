@@ -5,7 +5,7 @@ pragma solidity 0.8.19;
 contract ContractorJobs{
     address public Owner;
     uint256 public ContractorJobsCount;
-    uint256 public Oldest
+    uint256 public OldestUnclaimedJob;
 
     mapping(address => bool) public Contractors;
     mapping(uint256 => Job) public Jobs;
