@@ -10,7 +10,7 @@ contract ContractorJobs{
 
     //Other Declarations
     mapping(address => bool) public Contractors;
-    Job[] public Jobs;
+    Job[] public AvailableJobs;
     mapping(uint256 => uint256) internal FisherYatesShuffle;
 
     modifier onlyOwner(){
