@@ -20,6 +20,7 @@ contract ContractorJobs{
     }
 
     event JobCreated(uint256 JobId, string Description, string Link, uint256 TotalPayout);
+    event ContractorsAddedOrRemoved(address[] Contractors, bool AddRemove);
 
     struct Job{
         string Description;
