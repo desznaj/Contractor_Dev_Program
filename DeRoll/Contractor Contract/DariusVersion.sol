@@ -29,7 +29,7 @@ contract ContractorJobs{
     }
 
     function CreateJob(string memory description, string memory link, uint256 payout) public onlyOwner{
-        require(description.length > 0, "Description cannot be empty.");
+        require(description.length > 0, "Description cannot be empty." && description.length < 256);
 
         uint256 JobId = ContractorJobsCount;
         Jobs[JobId] = Job(description, link, payout, address(0), false, false);
