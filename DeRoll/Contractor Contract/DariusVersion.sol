@@ -14,4 +14,6 @@ contract ContractorJobs{
         uint256 TotalPayout;
         bool Completed;
     }
+
+    
 }
