@@ -34,7 +34,9 @@ contract ContractorJobs{
         uint256 LastUpdate;
     }
 
-    //
+    //Only Contractor Functions
+
+    
 
 
     // Only Owner Functions
