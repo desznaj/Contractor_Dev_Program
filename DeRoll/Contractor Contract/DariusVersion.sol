@@ -10,7 +10,7 @@ contract ContractorJobs{
     //Other Declarations
     mapping(address => bool) public Contractors;
     mapping(uint256 => Job) public Jobs;
-    mapping(uint256 => uint256) internal 
+    mapping(uint256 => uint256) internal FisherYatesShuffle;
 
     modifier onlyOwner(){
         require(msg.sender == Owner, "Only the owner can call this function.");
