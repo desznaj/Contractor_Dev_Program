@@ -16,7 +16,7 @@ contract ContractorJobs{
         bool Completed;
     }
 
-    func
+    function Crea
 
 
 }
