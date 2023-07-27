@@ -16,7 +16,16 @@ contract ContractorJobs{
         bool Completed;
     }
 
-    function Crea
+    function CreateJob(string memory _description, string memory _link, uint256 _totalPayout) public onlyOwner{
+        uint256 JobId = ContractorJobsCount;
+        Jobs[JobId] = Job({
+            Description: _description,
+            Link: _link,
+            TotalPayout: _totalPayout,
+            Completed: false
+        });
+        ContractorJobsCount++;
+    }
 
 
 }
