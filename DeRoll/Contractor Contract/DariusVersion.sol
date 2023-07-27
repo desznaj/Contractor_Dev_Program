@@ -34,7 +34,8 @@ contract ContractorJobs{
             Description: _description,
             Link: _link,
             TotalPayout: _totalPayout,
-            Completed: false
+            Completed: false,
+            Accepted: false,
         });
         ContractorJobsCount++;
     }
