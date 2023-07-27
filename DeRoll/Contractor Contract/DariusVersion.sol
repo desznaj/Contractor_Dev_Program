@@ -42,7 +42,7 @@ contract ContractorJobs{
         emit JobCreated(JobId, description, link, payout);
     }
 
-    
+    function AddOrRemoveContractors()
 
 
 }
