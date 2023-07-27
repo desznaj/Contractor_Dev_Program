@@ -3,11 +3,12 @@
 pragma solidity 0.8.19;
 
 contract ContractorJobs{
-    //
+    //Variable Declarations
     address public Owner;
     uint256 public ContractorJobsCount;
     uint256 public OldestUnclaimedJob;
 
+    //Other Declarations
     mapping(address => bool) public Contractors;
     mapping(uint256 => Job) public Jobs;
 
