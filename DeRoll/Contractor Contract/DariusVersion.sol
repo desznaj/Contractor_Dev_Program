@@ -26,7 +26,7 @@ contract ContractorJobs{
         address Contractor;
         bool Accepted;
         bool Completed;
-        uint256 Last
+        uint256 LastUpdate;
     }
 
     function CreateJob(string memory description, string memory link, uint256 payout) public onlyOwner{
