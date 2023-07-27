@@ -19,6 +19,8 @@ contract ContractorJobs{
         _;
     }
 
+    event JobCreated(uint256 JobId, string Description, string Link, uint256 TotalPayout);
+
     struct Job{
         string Description;
         string Link;
