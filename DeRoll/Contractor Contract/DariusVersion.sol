@@ -33,7 +33,6 @@ contract ContractorJobs{
         address Contractor;
         bool Accepted;
         bool Completed;
-        uint256 LastUpdate;
     }
 
     //Only Contractor Functions
