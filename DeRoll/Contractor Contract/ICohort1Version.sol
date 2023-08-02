@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 interface ICohort1Version {
-  enum JobStatus { Open, Accepted, Completed }
+  enum JobStatus { AVAILABLE, ACCEPTED, COMPLETED }
 
   struct Job {
     uint256 JobId;
@@ -14,11 +14,13 @@ interface ICohort1Version {
     JobStatus Status;
   }
 
-  event JobCreated(uint256 JobId, string Title, string Description, string Link, uint256 Payout);
+  event JobCreated(uint256 indexed JobId, string Title, string Description, string Link, uint256 Payout);
 
-  event ContractorAdded(address[] Contractors, bool AddRemove);
+  event ContractorsAdded(address[] Contractors);
 
-  // Contractor Only Functions
+  event ContractorsRemoved(address[] Contractors);
+
+  // Contractor Functions
 
   function getJobsList() external view returns (Job[] memory);
 
