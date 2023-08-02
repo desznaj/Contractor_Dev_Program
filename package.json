@@ -1,0 +1,11 @@
+{
+  "name": "Contractor_Dev_Program",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/desznaj/Contractor_Dev_Program.git",
+  "author": "desznaj <bence.webber@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3"
+  }
+}
