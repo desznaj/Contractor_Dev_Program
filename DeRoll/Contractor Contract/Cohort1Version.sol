@@ -21,9 +21,10 @@ contract Cohort1Version is ICohort1Version, Ownable {
 
   function createJob(string memory _title, string memory _description, string memory _link, uint256 _payout) external onlyOwner {
     jobIdCounter.increment();
+    uint256 newJobId = jobIdCounter.current()
 
-    Jobs[jobIdCounter.current()] = Job(
-      jobIdCounter.current(), 
+    Jobs[newJobId] = Job(
+      newJobId, 
       _title, 
       _description,
       _link, 
@@ -31,6 +32,8 @@ contract Cohort1Version is ICohort1Version, Ownable {
       address(0), 
       JobStatus.AVAILABLE
     );
+
+    emit JobCreated(newJobId, _title, _description, _link, _payout);
   }
 
   function addContractors(address[] memory _contractors) external onlyOwner {
