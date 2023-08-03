@@ -21,7 +21,7 @@ contract Cohort1Version is ICohort1Version, Ownable {
 
   function createJob(string memory _title, string memory _description, string memory _link, uint256 _payout) external onlyOwner {
     jobIdCounter.increment();
-    uint256 newJobId = jobIdCounter.current()
+    uint256 newJobId = jobIdCounter.current();
 
     Jobs[newJobId] = Job(
       newJobId, 
@@ -34,6 +34,19 @@ contract Cohort1Version is ICohort1Version, Ownable {
     );
 
     emit JobCreated(newJobId, _title, _description, _link, _payout);
+  }
+
+  function finalizeJob(uint256 _jobId) public onlyOwner {
+    require(jobId < Jobs.length, "Job ID not valid");
+    require(!Jobs[_jobId].Status == JobStatus.ACCEPTED, "Job already completed");
+
+    Jobs[_jobId].Completed = true;
+
+    uint256 payoutAmount = jobs[_jobId].totalPayout / 2;
+    (bool success, ) = payable(msg.sender).call{value: payoutAmount}("");
+    require(success, "Failed to send funds to the contractor.");
+
+    emit JobFinalized(_jobId);
   }
 
   function addContractors(address[] memory _contractors) external onlyOwner {
