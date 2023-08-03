@@ -14,7 +14,9 @@ contract Cohort1Version is ICohort1Version, Ownable {
   mapping(uint256 => Job) private Jobs;
 
   // Contractor Functions
-
+  function acceptJob(uint _jobId) external {
+    Jobs[_jobId].Status = JobStatus.ACCEPTED;
+  }
 
 
   // Owner Only Functions
