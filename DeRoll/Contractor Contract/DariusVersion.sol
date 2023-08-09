@@ -62,7 +62,7 @@ contract ContractorJobs{
     }
 
     //I want this function to be called by the contractor who accepted the job, but it does not payout to the contractor until the owner confirms the job is complete.
-    function CompleteJob(uint256 JobID) public onlyContractor{
+    function RequestCompleteJob(uint256 JobID) public onlyContractor{
         require(Jobs[JobID].Accepted == true, "This job has not been accepted yet.");
         require(Jobs[JobID].Completed == false, "This job has already been completed.");
 
