@@ -69,6 +69,8 @@ contract ContractorJobs{
         Jobs[JobID].Completed = true;
     }
 
+    function ConfirmCompleteJob(uint256 JobID)
+
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
         for(uint256 i = 0; i < contractors.length; i++){
             Contractors[contractors[i]] = addremove;
