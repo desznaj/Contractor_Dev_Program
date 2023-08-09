@@ -46,10 +46,23 @@ contract ContractorJobs{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
         require(bytes(link).length < 200, "Link is too long.");
 
-        Jobs.push(Job(description, link, payout, address(0), false, false, block.timestamp));
+        Jobs.push(Job(description, link, payout, address(0), false, false));
         AvailableJobs.push(Jobs.length - 1);
+        FisherYatesShuffle[(Jobs.length - 1)] = (AvailableJobs.length - 1);
 
-        emit JobCreated(JobId, description, link, payout);
+        emit JobCreated((Jobs.length - 1), description, link, payout);
+    }
+
+    function AcceptJob(uint256 JobID) public{
+        require(Contractors[msg.sender] == true, "You are not a SoteriaSC contractor");
+
+        Jobs[JobID].Contractor = msg.sender;
+        Jobs[JobID].Accepted = true;
+        
+        AvailableJobs[FisherYatesShuffle[JobID]] = AvailableJobs[AvailableJobs.length - 1];
+        AvailableJobs.pop();
+
+        emit
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
