@@ -70,7 +70,7 @@ contract ContractorJobs{
         require(Jobs[JobID].Completed == false, "This job has already been completed.");
 
         Jobs[JobID].RequestedComplete = true;
-        AvailableJobsIndex[(Jobs.length - 1)] = (AvailableJobs.length - 1);
+        RequestCompleteJobsIndex[JobID] = (AvailableJobs.length - 1);
         
     }
 
