@@ -63,7 +63,7 @@ contract ContractorJobs{
         AvailableJobs[FisherYatesShuffle[JobID]] = AvailableJobs[AvailableJobs.length - 1];
         AvailableJobs.pop();
 
-        emit 
+        emit JobAccepted(JobID, msg.sender);
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
