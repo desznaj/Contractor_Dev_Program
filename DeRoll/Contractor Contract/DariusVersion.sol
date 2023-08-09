@@ -33,6 +33,7 @@ contract ContractorJobs{
         uint256 TotalPayout;
         address Contractor;
         bool Accepted;
+        bool RequestedComplete;
         bool Completed;
     }
 
