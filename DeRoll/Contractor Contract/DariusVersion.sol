@@ -24,6 +24,7 @@ contract ContractorJobs{
     }
 
     event JobCreated(uint256 JobId, string Description, string Link, uint256 TotalPayout);
+    event JobAccepted(uint256 JobId, address Contractor);
     event ContractorsAddedOrRemoved(address[] Contractors, bool AddRemove);
 
     struct Job{
@@ -62,7 +63,7 @@ contract ContractorJobs{
         AvailableJobs[FisherYatesShuffle[JobID]] = AvailableJobs[AvailableJobs.length - 1];
         AvailableJobs.pop();
 
-        emit
+        emit 
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
@@ -71,5 +72,5 @@ contract ContractorJobs{
         }
         emit ContractorsAddedOrRemoved(contractors, addremove);
     }
-    
+
 }
