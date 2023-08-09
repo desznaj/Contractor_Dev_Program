@@ -67,7 +67,6 @@ contract ContractorJobs{
         require(Jobs[JobID].Completed == false, "This job has already been completed.");
 
         Jobs[JobID].Completed = true;
-        
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
