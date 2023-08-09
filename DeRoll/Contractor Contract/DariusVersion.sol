@@ -67,7 +67,7 @@ contract ContractorJobs{
         require(Jobs[JobID].Accepted == true, "This job has not been accepted yet.");
         require(Jobs[JobID].Completed == false, "This job has already been completed.");
 
-        Jobs[JobID].RequestComplete = true;
+        Jobs[JobID].RequestedComplete = true;
     }
 
     function ConfirmCompleteJob(uint256 JobID) public onlyOwner{
