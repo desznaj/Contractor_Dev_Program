@@ -62,12 +62,7 @@ contract ContractorJobs{
     }
 
     function CompleteJob(uint256 JobID) public onlyContractor{
-        require(Jobs[JobID].Contractor == msg.sender, "You are not the contractor for this job.");
-        require(Jobs[JobID].Accepted == true, "This job has not been accepted yet.");
-        require(Jobs[JobID].Completed == false, "This job has already been completed.");
-
-        Jobs[JobID].Completed = true;
-        payable(msg.sender).transfer(Jobs[JobID].TotalPayout / 2);
+        //I want this function to onl
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
