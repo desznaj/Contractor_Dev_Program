@@ -63,7 +63,7 @@ contract ContractorJobs{
         AvailableJobs[FisherYatesShuffle[JobID]] = AvailableJobs[AvailableJobs.length - 1];
         AvailableJobs.pop();
 
-        payable(msg.sender).transfer(Jobs[JobID].TotalPayout
+        payable(msg.sender).transfer(Jobs[JobID].TotalPayout)
 
         emit JobAccepted(JobID, msg.sender);
     }
