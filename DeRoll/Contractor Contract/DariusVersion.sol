@@ -14,7 +14,7 @@ contract ContractorJobs{
     uint256[] public RequestCompleteJobs;
     Job[] public Jobs;
     mapping(uint256 => uint256) internal AvailableJobsIndex;
-    
+    mapping(uint256 => uint256) internal RequestCompleteJobsIndex;
 
     modifier onlyOwner(){
         require(msg.sender == Owner, "Only the owner can call this function.");
