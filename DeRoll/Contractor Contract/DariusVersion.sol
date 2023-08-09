@@ -72,7 +72,7 @@ contract ContractorJobs{
     function ConfirmCompleteJob(uint256 JobID) public onlyOwner{
         require(Jobs[JobID].Completed == true, "This job has not been completed yet.");
 
-        payable(Jobs[JobID].Contractor).transfer(Jobs[JobID].TotalPayout / 2);
+        payable(Jobs[JobID].Contractor).transfer(TotalPayout - (Jobs[JobID].TotalPayout / 2));
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
