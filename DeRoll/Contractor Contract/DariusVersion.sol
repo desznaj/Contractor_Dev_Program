@@ -71,6 +71,5 @@ contract ContractorJobs{
         }
         emit ContractorsAddedOrRemoved(contractors, addremove);
     }
-
-
+    
 }
