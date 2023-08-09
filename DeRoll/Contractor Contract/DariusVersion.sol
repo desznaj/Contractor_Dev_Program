@@ -57,7 +57,7 @@ contract ContractorJobs{
         AvailableJobs.pop();
 
         payable(msg.sender).transfer(Jobs[JobID].TotalPayout / 2);
-
+        
         emit JobAccepted(JobID, msg.sender);
     }
 
