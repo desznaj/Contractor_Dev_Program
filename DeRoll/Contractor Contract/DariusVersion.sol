@@ -11,6 +11,7 @@ contract ContractorJobs{
     mapping(address => bool) public Contractors;
 
     uint256[] public AvailableJobs;
+    uint256
     Job[] public Jobs;
     mapping(uint256 => uint256) internal FisherYatesShuffle;
 
