@@ -13,7 +13,7 @@ contract ContractorJobs{
     uint256[] public AvailableJobs;
     uint256[] public RequestCompleteJobs;
     Job[] public Jobs;
-    mapping(uint256 => uint256) internal FisherYatesShuffle;
+    mapping(uint256 => uint256) internal AvailableJobsIndex;
 
     modifier onlyOwner(){
         require(msg.sender == Owner, "Only the owner can call this function.");
@@ -44,7 +44,7 @@ contract ContractorJobs{
 
         Jobs.push(Job(description, link, payout, address(0), false, false, false));
         AvailableJobs.push(Jobs.length - 1);
-        FisherYatesShuffle[(Jobs.length - 1)] = (AvailableJobs.length - 1);
+        AvailableJobsIndex[(Jobs.length - 1)] = (AvailableJobs.length - 1);
 
         emit JobCreated((Jobs.length - 1), description, link, payout);
     }
@@ -55,7 +55,7 @@ contract ContractorJobs{
         Jobs[JobID].Contractor = msg.sender;
         Jobs[JobID].Accepted = true;
         
-        AvailableJobs[FisherYatesShuffle[JobID]] = AvailableJobs[AvailableJobs.length - 1];
+        AvailableJobs[AvailableJobsIndex[JobID]] = AvailableJobs[AvailableJobs.length - 1];
         AvailableJobs.pop();
 
         payable(msg.sender).transfer(Jobs[JobID].TotalPayout / 2);
