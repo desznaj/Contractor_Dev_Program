@@ -41,7 +41,7 @@ contract ContractorJobs{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
         require(bytes(link).length < 200, "Link is too long.");
 
-        Jobs.push(Job(description, link, payout, address(0), false, false));
+        Jobs.push(Job(description, link, payout, address(0), false, false, false));
         AvailableJobs.push(Jobs.length - 1);
         FisherYatesShuffle[(Jobs.length - 1)] = (AvailableJobs.length - 1);
 
