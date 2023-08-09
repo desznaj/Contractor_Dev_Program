@@ -62,7 +62,7 @@ contract ContractorJobs{
     }
 
     function CompleteJob(uint256 JobID) public onlyContractor{
-        //I want this function to onl
+        //I want this function to be called by the contractor 
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
