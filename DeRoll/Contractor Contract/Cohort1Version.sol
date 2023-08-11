@@ -21,6 +21,16 @@ contract Cohort1Version is Ownable {
         JobStatus Status;
     }
 
+    // Events
+
+    event JobFinalized(uint256 indexed JobId);
+    
+    event JobCreated(uint256 indexed JobId, string Title, string Description, string Link, uint256 Payout);
+    
+    event ContractorsAdded(address[] Contractors);
+    
+    event ContractorsRemoved(address[] Contractors);
+
     // Contractor Functions
 
 
