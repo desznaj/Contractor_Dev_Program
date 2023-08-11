@@ -9,10 +9,12 @@ contract Cohort1Version is Ownable {
     mapping(address => bool) public Contractors;
     mapping(uint256 => Job) public Jobs;
     mapping(uint256 => uint256) public JobIdToAvailableJobsIndexes;
+    mapping(uint256 => uint256) public JobIdToInProgressJobsIndexes;
     
     uint256[] public AvailableJobIds;
+    uint256[] public InProgressJobIds;
 
-    enum JobStatus { AVAILABLE, ACCEPTED, COMPLETED }
+    enum JobStatus { AVAILABLE, INPROGRESS, COMPLETED }
 
     struct Job {
         uint256 JobId;
@@ -56,13 +58,17 @@ contract Cohort1Version is Ownable {
         require(_jobId <= jobIdCounter, "Job ID not valid");
         require(Jobs[_jobId].Status == JobStatus.AVAILABLE, "Job must be available");
 
-        Jobs[_jobId].Status = JobStatus.ACCEPTED;
+        Jobs[_jobId].Status = JobStatus.INPROGRESS;
         uint256 jobAvailableJobsIndex = JobIdToAvailableJobsIndexes[_jobId];
         uint256 lastAvailableJobsIndex = AvailableJobIds.length - 1;
         uint256 lastAvailableJobId = AvailableJobIds[lastAvailableJobsIndex];
         AvailableJobIds[jobAvailableJobsIndex] = lastAvailableJobId;
         JobIdToAvailableJobsIndexes[lastAvailableJobId] = jobAvailableJobsIndex;
         AvailableJobIds.pop();
+
+        InProgressJobIds.push(_jobId);
+        uint256 newJobInProgressJobsIndex = InProgressJobIds.length - 1;
+        JobIdToInProgressJobsIndexes[_jobId] = newJobInProgressJobsIndex;
 
         uint256 initialPayout = Jobs[_jobId].RemainingPayout / 2;
 
@@ -92,7 +98,6 @@ contract Cohort1Version is Ownable {
 
         AvailableJobIds.push(newJobId);
         uint256 newJobAvailableJobsIndex = AvailableJobIds.length - 1;
-
         JobIdToAvailableJobsIndexes[newJobId] = newJobAvailableJobsIndex;
 
         emit JobCreated(newJobId, _title, _description, _link, _payout);
@@ -100,9 +105,15 @@ contract Cohort1Version is Ownable {
 
     function FinalizeJob(uint256 _jobId) external onlyOwner {
         require(_jobId <= jobIdCounter, "Job ID not valid");
-        require(Jobs[_jobId].Status == JobStatus.ACCEPTED, "Job must be ongoing");
+        require(Jobs[_jobId].Status == JobStatus.INPROGRESS, "Job must be in progress");
     
         Jobs[_jobId].Status = JobStatus.COMPLETED;
+        uint256 jobInProgressJobsIndex = JobIdToInProgressJobsIndexes[_jobId];
+        uint256 lastInProgressJobsIndex = InProgressJobIds.length - 1;
+        uint256 lastInProgressJobId = InProgressJobIds[lastInProgressJobsIndex];
+        InProgressJobIds[jobInProgressJobsIndex] = lastInProgressJobId;
+        JobIdToInProgressJobsIndexes[lastInProgressJobId] = jobInProgressJobsIndex;
+        InProgressJobIds.pop();
     
         uint256 finalPayout = Jobs[_jobId].RemainingPayout;
         address payable contractor = payable(Jobs[_jobId].JobsContractor);
