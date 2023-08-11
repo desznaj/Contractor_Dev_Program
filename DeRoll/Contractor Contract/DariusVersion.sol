@@ -11,8 +11,10 @@ contract ContractorJobs{
     mapping(address => bool) public Contractors;
 
     uint256[] public AvailableJobs;
+    uint256[] public RequestCompleteJobs;
     Job[] public Jobs;
-    mapping(uint256 => uint256) internal FisherYatesShuffle;
+    mapping(uint256 => uint256) internal AvailableJobsIndex;
+    mapping(uint256 => uint256) internal RequestCompleteJobsIndex;
 
     modifier onlyOwner(){
         require(msg.sender == Owner, "Only the owner can call this function.");
@@ -24,6 +26,7 @@ contract ContractorJobs{
     }
 
     event JobCreated(uint256 JobId, string Description, string Link, uint256 TotalPayout);
+    event JobAccepted(uint256 JobId, address Contractor);
     event ContractorsAddedOrRemoved(address[] Contractors, bool AddRemove);
 
     struct Job{
@@ -32,24 +35,49 @@ contract ContractorJobs{
         uint256 TotalPayout;
         address Contractor;
         bool Accepted;
+        bool RequestedComplete;
         bool Completed;
     }
-
-    //Only Contractor Functions
-
-
-
-
-    //Only Owner Functions
 
     function CreateJob(string memory description, string memory link, uint256 payout) public onlyOwner{
         require(bytes(description).length > 0 && bytes(description).length < 200, "Description is either empty or too long.");
         require(bytes(link).length < 200, "Link is too long.");
 
-        Jobs.push(Job(description, link, payout, address(0), false, false, block.timestamp));
+        Jobs.push(Job(description, link, payout, address(0), false, false, false));
         AvailableJobs.push(Jobs.length - 1);
+        AvailableJobsIndex[(Jobs.length - 1)] = (AvailableJobs.length - 1);
 
-        emit JobCreated(JobId, description, link, payout);
+        emit JobCreated((Jobs.length - 1), description, link, payout);
+    }
+
+    function AcceptJob(uint256 JobID) public{
+        require(Contractors[msg.sender] == true, "You are not a SoteriaSC contractor");
+
+        Jobs[JobID].Contractor = msg.sender;
+        Jobs[JobID].Accepted = true;
+        
+        AvailableJobs[AvailableJobsIndex[JobID]] = AvailableJobs[AvailableJobs.length - 1];
+        AvailableJobs.pop();
+
+        payable(msg.sender).transfer(Jobs[JobID].TotalPayout / 2);
+        
+        emit JobAccepted(JobID, msg.sender);
+    }
+
+    //I want this function to be called by the contractor who accepted the job, but it does not payout to the contractor until the owner confirms the job is complete.
+    function RequestCompleteJob(uint256 JobID) public onlyContractor{
+        require(Jobs[JobID].Accepted == true, "This job has not been accepted yet.");
+        require(Jobs[JobID].Completed == false, "This job has already been completed.");
+
+        Jobs[JobID].RequestedComplete = true;
+        RequestCompleteJobsIndex[JobID] = (AvailableJobs.length - 1);
+        
+    }
+
+    function ConfirmCompleteJob(uint256 JobID) public onlyOwner{
+        require(Jobs[JobID].Completed == true, "This job has not been completed yet.");
+
+        payable(Jobs[JobID].Contractor).transfer(Jobs[JobID].TotalPayout - (Jobs[JobID].TotalPayout / 2));
     }
 
     function AddOrRemoveContractors(address[] memory contractors, bool addremove) public onlyOwner{
@@ -58,6 +86,5 @@ contract ContractorJobs{
         }
         emit ContractorsAddedOrRemoved(contractors, addremove);
     }
-
 
 }
