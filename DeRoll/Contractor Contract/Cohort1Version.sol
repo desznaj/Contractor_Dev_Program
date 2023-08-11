@@ -19,7 +19,7 @@ contract Cohort1Version is ICohort1Version, Ownable {
 
     // Owner Only Functions
 
-    function createJob(string memory _title, string memory _description, string memory _link, uint256 _payout) external onlyOwner {
+    function CreateJob(string memory _title, string memory _description, string memory _link, uint256 _payout) external onlyOwner {
         jobIdCounter.increment();
         uint256 newJobId = jobIdCounter.current();
 
@@ -36,7 +36,7 @@ contract Cohort1Version is ICohort1Version, Ownable {
         emit JobCreated(newJobId, _title, _description, _link, _payout);
     }
 
-    function finalizeJob(uint256 _jobId) public onlyOwner {
+    function FinalizeJob(uint256 _jobId) public onlyOwner {
         require(jobId < Jobs.length, "Job ID not valid");
         require(!Jobs[_jobId].Status == JobStatus.ACCEPTED, "Job already completed");
     
@@ -49,14 +49,14 @@ contract Cohort1Version is ICohort1Version, Ownable {
         emit JobFinalized(_jobId);
     }
 
-    function addContractors(address[] memory _contractors) external onlyOwner {
+    function AddContractors(address[] memory _contractors) external onlyOwner {
         for (uint256 i = 0; i < _contractors.length; i++) {
           Contractors[_contractors[i]] = true;
         }
         emit ContractorsAdded(_contractors);
     }
 
-    function removeContractors(address[] memory _contractors) external onlyOwner {
+    function RemoveContractors(address[] memory _contractors) external onlyOwner {
         for (uint256 i = 0; i < _contractors.length; i++) {
             Contractors[_contractors[i]] = false;
         }
