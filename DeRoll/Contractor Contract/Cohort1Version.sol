@@ -8,6 +8,9 @@ contract Cohort1Version is Ownable {
 
     mapping(address => bool) private Contractors;
     mapping(uint256 => Job) private Jobs;
+    mapping(uint256 => uint256) private JobIdToAvailableJobsIndexes;
+    
+    uint256[] private AvailableJobIds;
 
     enum JobStatus { AVAILABLE, ACCEPTED, COMPLETED }
 
@@ -35,6 +38,10 @@ contract Cohort1Version is Ownable {
 
     // Contractor Functions
 
+    function GetAvailableJobIds() public uint256[] {
+        return AvailableJobIds;
+    }
+
     function AcceptJob(uint256 _jobId) external {
         address payable contractor = payable(msg.sender);
 
@@ -43,6 +50,12 @@ contract Cohort1Version is Ownable {
         require(Jobs[_jobId].Status == JobStatus.AVAILABLE, "Job must be available");
 
         Jobs[_jobId].Status = JobStatus.ACCEPTED;
+        uint256 jobAvailableJobsIndex = JobIdToAvailableJobsIndexes[_jobId];
+        uint256 lastAvailableJobsIndex = AvailableJobIds.length - 1;
+        uint256 lastAvailableJobId = AvailableJobIds[lastAvailableJobsIndex];
+        AvailableJobIds[jobAvailableJobsIndex] = lastAvailableJobId;
+        JobIdToAvailableJobsIndexes[lastAvailableJobId] = jobAvailableJobsIndex;
+        AvailableJobIds.pop();
 
         uint256 initialPayout = Jobs[_jobId].RemainingPayout / 2;
 
@@ -58,10 +71,10 @@ contract Cohort1Version is Ownable {
     // Owner Only Functions
 
     function CreateJob(string memory _title, string memory _description, string memory _link, uint256 _payout) external onlyOwner {
-        jobIdCounter++;
+        uint256 newJobId = jobIdCounter++;
 
-        Jobs[jobIdCounter] = Job(
-            jobIdCounter, 
+        Jobs[newJobId] = Job(
+            newJobId, 
             _title, 
             _description,
             _link, 
@@ -70,7 +83,12 @@ contract Cohort1Version is Ownable {
             JobStatus.AVAILABLE
         );
 
-        emit JobCreated(jobIdCounter, _title, _description, _link, _payout);
+        AvailableJobIds.push(newJobId);
+        uint256 newJobAvailableJobsIndex = AvailableJobIds.length - 1;
+
+        JobIdToAvailableJobsIndexes[newJobId] = newJobAvailableJobsIndex;
+
+        emit JobCreated(newJobId, _title, _description, _link, _payout);
     }
 
     function FinalizeJob(uint256 _jobId) external onlyOwner {
