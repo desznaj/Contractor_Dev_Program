@@ -4,13 +4,13 @@ pragma solidity ^0.8.18;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Cohort1Version is Ownable {
-    uint256 private jobIdCounter;
+    uint256 public jobIdCounter;
 
-    mapping(address => bool) private Contractors;
-    mapping(uint256 => Job) private Jobs;
-    mapping(uint256 => uint256) private JobIdToAvailableJobsIndexes;
+    mapping(address => bool) public Contractors;
+    mapping(uint256 => Job) public Jobs;
+    mapping(uint256 => uint256) public JobIdToAvailableJobsIndexes;
     
-    uint256[] private AvailableJobIds;
+    uint256[] public AvailableJobIds;
 
     enum JobStatus { AVAILABLE, ACCEPTED, COMPLETED }
 
