@@ -51,6 +51,17 @@ contract Cohort1Version is Ownable {
         return availableJobs;
     }
 
+    function GetInProgressJobs() public Job[] {
+        Job[] inProgressJobs;
+
+        for (uint256 i = 0; i < InProgressJobIds.length; i++) {
+            uint256 inProgressJobId = InProgressJobIds[i];
+            inProgressJobs.push(Jobs[inProgressJobId]);
+        }
+
+        return inProgressJobs;
+    }
+
     function AcceptJob(uint256 _jobId) external {
         address payable contractor = payable(msg.sender);
 
