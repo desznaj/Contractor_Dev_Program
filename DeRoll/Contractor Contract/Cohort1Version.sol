@@ -2,13 +2,9 @@
 pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "./ICohort1Version.sol";
 
 contract Cohort1Version is ICohort1Version, Ownable {
-    using Counters for Counters.Counter;
-
-    Counters.Counter private jobIdCounter;
+    uint256 private jobIdCounter;
 
     mapping(address => bool) private Contractors;
     mapping(uint256 => Job) private Jobs;
@@ -32,11 +28,10 @@ contract Cohort1Version is ICohort1Version, Ownable {
     // Owner Only Functions
 
     function CreateJob(string memory _title, string memory _description, string memory _link, uint256 _payout) external onlyOwner {
-        jobIdCounter.increment();
-        uint256 newJobId = jobIdCounter.current();
+        jobIdCounter++;
 
-        Jobs[newJobId] = Job(
-            newJobId, 
+        Jobs[jobIdCounter] = Job(
+            jobIdCounter, 
             _title, 
             _description,
             _link, 
@@ -45,7 +40,7 @@ contract Cohort1Version is ICohort1Version, Ownable {
             JobStatus.AVAILABLE
         );
 
-        emit JobCreated(newJobId, _title, _description, _link, _payout);
+        emit JobCreated(jobIdCounter, _title, _description, _link, _payout);
     }
 
     function FinalizeJob(uint256 _jobId) public onlyOwner {
