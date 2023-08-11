@@ -16,16 +16,16 @@ contract Cohort1Version is Ownable {
         string Title;
         string Description;
         string Link;
-        uint256 Payout;
+        uint256 RemainingPayout;
         address Contractor;
         JobStatus Status;
     }
 
     // Events
 
-    event JobFinalized(uint256 indexed JobId);
-    
     event JobCreated(uint256 indexed JobId, string Title, string Description, string Link, uint256 Payout);
+
+    event JobFinalized(uint256 indexed JobId);
     
     event ContractorsAdded(address[] Contractors);
     
@@ -54,15 +54,19 @@ contract Cohort1Version is Ownable {
     }
 
     function FinalizeJob(uint256 _jobId) public onlyOwner {
-        require(jobId < Jobs.length, "Job ID not valid");
-        require(!Jobs[_jobId].Status == JobStatus.ACCEPTED, "Job already completed");
+        require(_jobId <= jobIdCounter, "Job ID not valid");
+        require(Jobs[_jobId].Status == JobStatus.ACCEPTED, "Job must be ongoing");
     
-        Jobs[_jobId].Completed = true;
+        Jobs[_jobId].Status = JobStatus.COMPLETED;
     
-        uint256 payoutAmount = jobs[_jobId].totalPayout / 2;
-        (bool success, ) = payable(msg.sender).call{value: payoutAmount}("");
-        require(success, "Failed to send funds to the contractor.");
-    
+        uint256 finalPayout = Jobs[_jobId].RemainingPayout;
+        address payable contractor = payable(Jobs[_jobId].JobsContractor);
+
+        Jobs[_jobId].RemainingPayout = 0;
+
+        (bool success, ) = contractor.call{value: finalPayout}("");
+        require(success, "Failed to send funds to the contractor");
+
         emit JobFinalized(_jobId);
     }
 
