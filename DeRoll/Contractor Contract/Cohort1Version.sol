@@ -13,6 +13,18 @@ contract Cohort1Version is ICohort1Version, Ownable {
     mapping(address => bool) private Contractors;
     mapping(uint256 => Job) private Jobs;
 
+    enum JobStatus { AVAILABLE, ACCEPTED, COMPLETED }
+
+    struct Job {
+        uint256 JobId;
+        string Title;
+        string Description;
+        string Link;
+        uint256 Payout;
+        address Contractor;
+        JobStatus Status;
+    }
+
     // Contractor Functions
 
 
