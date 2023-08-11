@@ -23,6 +23,8 @@ contract Cohort1Version is Ownable {
 
     // Events
 
+    event JobAccepted(uint256 indexed JobId);
+
     event JobCreated(uint256 indexed JobId, string Title, string Description, string Link, uint256 Payout);
 
     event JobFinalized(uint256 indexed JobId);
@@ -33,7 +35,25 @@ contract Cohort1Version is Ownable {
 
     // Contractor Functions
 
+    function AcceptJob(uint256 _jobId) external {
+        address payable contractor = payable(msg.sender);
 
+        require(Contractors[contractor], "Only contractors can accept jobs");
+        require(_jobId <= jobIdCounter, "Job ID not valid");
+        require(Jobs[_jobId].Status == JobStatus.AVAILABLE, "Job must be available");
+
+        Jobs[_jobId].Status = JobStatus.ACCEPTED;
+
+        uint256 initialPayout = Jobs[_jobId].RemainingPayout / 2;
+
+        Jobs[_jobId].RemainingPayout -= initialPayout;
+        Jobs[_jobId].Contractor = contractor;
+
+        (bool success, ) = contractor.call{value: initialPayout}("");
+        require(success, "Failed to send funds to the contractor");
+
+        emit JobAccepted(_jobId);
+    }    
 
     // Owner Only Functions
 
@@ -53,7 +73,7 @@ contract Cohort1Version is Ownable {
         emit JobCreated(jobIdCounter, _title, _description, _link, _payout);
     }
 
-    function FinalizeJob(uint256 _jobId) public onlyOwner {
+    function FinalizeJob(uint256 _jobId) external onlyOwner {
         require(_jobId <= jobIdCounter, "Job ID not valid");
         require(Jobs[_jobId].Status == JobStatus.ACCEPTED, "Job must be ongoing");
     
