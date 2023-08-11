@@ -38,8 +38,15 @@ contract Cohort1Version is Ownable {
 
     // Contractor Functions
 
-    function GetAvailableJobIds() public uint256[] {
-        return AvailableJobIds;
+    function GetAvailableJobs() public Job[] {
+        Job[] availableJobs;
+
+        for (uint256 i = 0; i < AvailableJobIds.length; i++) {
+            uint256 availableJobId = AvailableJobIds[i];
+            availableJobs.push(Jobs[availableJobId]);
+        }
+
+        return availableJobs;
     }
 
     function AcceptJob(uint256 _jobId) external {
