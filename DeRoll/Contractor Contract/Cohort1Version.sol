@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Cohort1Version is Ownable {
+contract DeRoll is Ownable {
     uint256 public jobIdCounter;
 
     mapping(address => bool) public Contractors;
@@ -40,23 +40,23 @@ contract Cohort1Version is Ownable {
 
     // Contractor Functions
 
-    function GetAvailableJobs() public Job[] {
-        Job[] availableJobs;
+    function GetAvailableJobs() public view returns(Job[] memory) {
+        Job[] memory availableJobs = new Job[](AvailableJobIds.length);
 
         for (uint256 i = 0; i < AvailableJobIds.length; i++) {
             uint256 availableJobId = AvailableJobIds[i];
-            availableJobs.push(Jobs[availableJobId]);
+            availableJobs[i] = Jobs[availableJobId];
         }
 
         return availableJobs;
     }
 
-    function GetInProgressJobs() public Job[] {
-        Job[] inProgressJobs;
+    function GetInProgressJobs() public view returns(Job[] memory) {
+        Job[] memory inProgressJobs = new Job[](InProgressJobIds.length);
 
         for (uint256 i = 0; i < InProgressJobIds.length; i++) {
             uint256 inProgressJobId = InProgressJobIds[i];
-            inProgressJobs.push(Jobs[inProgressJobId]);
+            inProgressJobs[i] = Jobs[inProgressJobId];
         }
 
         return inProgressJobs;
@@ -127,7 +127,7 @@ contract Cohort1Version is Ownable {
         InProgressJobIds.pop();
     
         uint256 finalPayout = Jobs[_jobId].RemainingPayout;
-        address payable contractor = payable(Jobs[_jobId].JobsContractor);
+        address payable contractor = payable(Jobs[_jobId].Contractor);
 
         Jobs[_jobId].RemainingPayout = 0;
 
